@@ -65,3 +65,17 @@ class ClassJoinSettingsForm(forms.ModelForm):
         if ttl is not None and ttl < 1:
             raise forms.ValidationError('TTL must be at least 1 minute.')
         return ttl
+
+
+class ClassMessagingSettingsForm(forms.ModelForm):
+    class Meta:
+        model = Classroom
+        fields = ['messaging_enabled']
+        widgets = {
+            'messaging_enabled': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['messaging_enabled'].label = 'Allow students to send private messages'
+

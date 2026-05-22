@@ -8,7 +8,16 @@
         <div class="col-md-12">
             <h2 class="fw-bold"><i class="fas fa-school text-primary me-2"></i>{{ classroom.name }}</h2>
             <p class="text-muted mb-2">{{ classroom.description }}</p>
-            <p class="text-muted mb-2"><i class="fas fa-user-tie me-1"></i>Teachers: {% for t in teachers %}{{ t.username }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            <div class="mb-2 d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-user-tie me-1"></i>Teachers: {% for t in teachers %}{{ t.username }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                </div>
+                {% if is_student %}
+                    <a href="{% url 'start_conversation' classroom.pk classroom.teacher.pk %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-envelope me-1"></i>Message Teacher
+                    </a>
+                {% endif %}
+            </div>
             {% if student_leave_request %}
                 <div class="alert alert-warning py-2 px-3 mb-3">Student leave request pending approval.</div>
             {% endif %}
@@ -70,6 +79,27 @@
                         </details>
 
                         <details class="mt-3">
+                            <summary class="fw-bold"><i class="fas fa-sliders-h me-2 text-primary"></i>Messaging Settings</summary>
+                            <form method="post" action="{% url 'update_messaging_settings' classroom.pk %}" class="mt-2">
+                                {% csrf_token %}
+                                <div class="form-check form-switch mb-3">
+                                    {{ messaging_settings_form.messaging_enabled }}
+                                    <label class="form-check-label" for="{{ messaging_settings_form.messaging_enabled.id_for_label }}">
+                                        {{ messaging_settings_form.messaging_enabled.label }}
+                                    </label>
+                                </div>
+                                <div class="form-text mb-2">
+                                    {% if classroom.messaging_enabled %}
+                                        <i class="fas fa-check-circle text-success me-1"></i>Students can send you private messages
+                                    {% else %}
+                                        <i class="fas fa-ban text-danger me-1"></i>Students cannot send private messages in this classroom
+                                    {% endif %}
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Save Settings</button>
+                            </form>
+                        </details>
+
+                        <details class="mt-3">
                             <summary class="fw-bold"><i class="fas fa-users me-2"></i>Class Roster ({{ students|length }})</summary>
                             {% if students %}
                                 <ul class="list-group list-group-flush mt-2">
@@ -78,10 +108,15 @@
                                             <a href="{% url 'student_analytics' classroom.pk student.pk %}" class="text-decoration-none fw-semibold">
                                                 <i class="fas fa-user-graduate me-2 text-success"></i>{{ student.username }}
                                             </a>
-                                            <form method="post" action="{% url 'remove_student' classroom.pk student.pk %}" onsubmit="return confirm('Remove this student from the classroom?');">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
-                                            </form>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="{% url 'start_conversation' classroom.pk student.pk %}" class="btn btn-outline-primary" title="Message this student">
+                                                    <i class="fas fa-envelope me-1"></i>Message
+                                                </a>
+                                                <form method="post" action="{% url 'remove_student' classroom.pk student.pk %}" onsubmit="return confirm('Remove this student from the classroom?');" style="display: inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                                </form>
+                                            </div>
                                         </li>
                                     {% endfor %}
                                 </ul>

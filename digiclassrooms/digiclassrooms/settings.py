@@ -20,14 +20,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-d#1n^_08xs%ku78j=7bma
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000,https://absolute-goldsmith-lunchroom.ngrok-free.dev').split(',')
 
 INSTALLED_APPS = [
     'assignments',
     'classrooms',
     'lectures',
+    'user_messages',
     'notices',
     'results',
     'users',
@@ -126,5 +127,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 

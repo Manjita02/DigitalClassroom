@@ -19,6 +19,7 @@ urlpatterns = [
     path('classroom/<int:pk>/request-teacher-join/', views.request_teacher_join_classroom, name='request_teacher_join_classroom'),
     path('teacher-join-request/<int:pk>/cancel/', views.cancel_teacher_join_request, name='cancel_teacher_join_request'),
     path('classroom/<int:pk>/join-settings/', views.update_join_settings, name='update_join_settings'),
+    path('classroom/<int:pk>/messaging-settings/', views.update_messaging_settings, name='update_messaging_settings'),
     path('classroom/<int:pk>/students/<int:student_id>/remove/', views.remove_student, name='remove_student'),
     path('leave-request/<int:pk>/', views.review_leave_request, name='review_leave_request'),
     path('teacher-join-request/<int:pk>/', views.review_teacher_join_request, name='review_teacher_join_request'),

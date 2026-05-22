@@ -26,6 +26,7 @@ class Classroom(models.Model):
     join_key_expires_at = models.DateTimeField(null=True, blank=True)
     join_key_ttl_override_minutes = models.PositiveIntegerField(null=True, blank=True)
     joins_enabled = models.BooleanField(default=True)
+    messaging_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     
     if TYPE_CHECKING:

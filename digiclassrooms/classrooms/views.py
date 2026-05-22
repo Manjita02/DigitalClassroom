@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import Classroom
 from .models import ClassroomLeaveRequest, ClassroomTeacherJoinRequest
-from .forms import ClassroomForm, JoinClassroomForm, ClassJoinSettingsForm, AdminClassroomForm
+from .forms import ClassroomForm, JoinClassroomForm, ClassJoinSettingsForm, AdminClassroomForm, ClassMessagingSettingsForm
 from assignments.models import Submission, Assignment, DeadlineEvent
 from django.contrib.auth.models import User
 from users.models import Notification, SupportTicket
@@ -418,6 +418,29 @@ def update_join_settings(request, pk):
 
 
 @login_required(login_url='login')
+def update_messaging_settings(request, pk):
+    classroom = get_object_or_404(Classroom, pk=pk)
+    if not classroom.is_teacher(request.user):
+        messages.error(request, 'Only the classroom teacher can update messaging settings.')
+        return redirect('home')
+
+    if request.method != 'POST':
+        return redirect('classroom_detail', pk=classroom.pk)
+
+    form = ClassMessagingSettingsForm(request.POST, instance=classroom)
+    if form.is_valid():
+        form.save()
+        if form.cleaned_data['messaging_enabled']:
+            messages.success(request, 'Private messaging has been enabled for this classroom.')
+        else:
+            messages.success(request, 'Private messaging has been disabled for this classroom.')
+    else:
+        messages.error(request, 'Unable to update messaging settings. Please check the form values.')
+
+    return redirect('classroom_detail', pk=classroom.pk)
+
+
+@login_required(login_url='login')
 def remove_student(request, pk, student_id):
     classroom = get_object_or_404(Classroom, pk=pk)
     if not classroom.is_teacher(request.user):
@@ -453,6 +476,7 @@ def classroom_detail(request, pk):
         'students': classroom.students.order_by('username'),
         'teachers': classroom.teachers.order_by('username'),
         'join_settings_form': ClassJoinSettingsForm(instance=classroom),
+        'messaging_settings_form': ClassMessagingSettingsForm(instance=classroom),
         'default_join_ttl_minutes': Classroom.join_key_ttl_minutes(),
         'effective_join_ttl_minutes': classroom.get_join_key_ttl_minutes(),
         'student_leave_request': student_request,

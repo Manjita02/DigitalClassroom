@@ -1,0 +1,106 @@
+{% extends 'users/base.html' %}
+{% block title %}Messages - DigiClassroom{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-1"><i class="fas fa-envelope text-primary me-2"></i>Messages</h2>
+        <p class="text-muted mb-0">
+            {% if is_teacher %}
+                View and respond to messages from your students.
+            {% else %}
+                Send private messages to your teachers.
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-12">
+        {% if conversations %}
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>
+                                    {% if is_teacher %}
+                                        Student
+                                    {% else %}
+                                        Teacher
+                                    {% endif %}
+                                </th>
+                                <th>Classroom</th>
+                                <th>Last Message</th>
+                                <th>Updated</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for conversation in conversations %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">
+                                            {{ conversation.student.get_full_name|default:conversation.student.username }}
+                                        </div>
+                                        <div class="text-muted small">@{{ conversation.student.username }}</div>
+                                    </td>
+                                    <td>{{ conversation.classroom.name }}</td>
+                                    <td>
+                                        {% if conversation.latest_message %}
+                                            <div class="text-truncate" style="max-width: 200px;">
+                                                <strong>{{ conversation.latest_message.sender.username }}:</strong>
+                                                {{ conversation.latest_message.content|truncatewords:10 }}
+                                            </div>
+                                            {% if not conversation.latest_message.is_read and conversation.latest_message.sender != request.user %}
+                                                <span class="badge bg-primary">New</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">No messages yet</span>
+                                        {% endif %}
+                                        {% if not conversation.classroom.messaging_enabled %}
+                                            <div class="small text-warning mt-1">
+                                                <i class="fas fa-ban me-1"></i>Messaging disabled
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {{ conversation.updated_at|date:"M d, Y H:i" }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'conversation_detail' conversation.id %}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-envelope-open-text me-1"></i>Open
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-inbox text-muted" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h5 class="mb-2">No conversations yet</h5>
+                    <p class="text-muted mb-0">
+                        {% if is_teacher %}
+                            Messages from your students will appear here.
+                        {% else %}
+                            Start a conversation with your teacher to ask questions!
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %}
