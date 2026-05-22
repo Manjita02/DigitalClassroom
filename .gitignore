@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Byte-compiled / cache
+*.pyc
+.pytest_cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Environment variables
+.env
+.env.*
+
+# Docker and deployment files (kept out-of-repo)
+Dockerfile
+docker-compose.yml
+fly.toml
+
+# Coverage
+.coverage
+coverage.xml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
