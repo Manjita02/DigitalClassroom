@@ -1,30 +1,29 @@
-# DigitalClassroom
+# DigiClassroom
 
-A Django-based Learning Management System (LMS) designed for classroom management, content delivery, assessments, and streamlined communication across Admin, Teacher, and Student roles. 
+A modern, streamlined digital classroom platform built with Django. This platform provides distinct portals for students, teachers, and administrators to facilitate digital education, track assignments, and maintain smooth communication.
 
-## Features
-
-- **Roles and Dashboards:** Distinct dashboards for Admin, Teacher, and Student roles with tailored workflows.
-- **Classroom Management:** Secure, key-based joining for students, with role-based approval flows for new classes.
-- **Lectures and Notices:** Dedicated modules for video lectures and announcements, supporting threaded discussions.
-- **Assignments and Grading:**
-  - Auto-grading for quizzes.
-  - Manual grading for Q&A with per-question feedback.
-- **Deadlines and Alerts:** Built-in calendar views and urgency-based reminders for upcoming deadlines.
-- **Support and Communication:** Integrated ticketing system and threaded support conversations.
+## Key Features
+- **Role-Based Access Control:** Dedicated dashboards and permissions for Students, Teachers, and Admins.
+- **Classroom Management:** Teachers can create, manage, and distribute materials in isolated digital classrooms.
+- **Assignment Tracking:** Seamlessly distribute, submit, and track assignments with built-in deadline indicators.
+- **Asynchronous Notifications:** Real-time polling and dynamic alert systems for pending requests, enrollments, and support tickets.
+- **Admin Support Ticketing:** Integrated helpdesk system for users to raise issues securely to administrators.
 
 ## Tech Stack
+- **Backend Framework:** Django (Python)
+- **Database:** SQLite3 (development) / PostgreSQL (production-ready)
+- **Frontend Architecture:** Vanilla JavaScript, HTML5
+- **Styling:** Custom CSS layered over Bootstrap 5, leveraging CSS variables for global theming
+- **Typography:** Google Fonts (Inter) & FontAwesome Icons
 
-- **Backend:** Python, Django
-- **Database:** SQLite (default, compatible with PostgreSQL/MySQL)
-- **Frontend:** HTML5, CSS3, Django Template Language
-- **Authentication:** Django's built-in authentication system with custom profiles
-
-## Prerequisites
-
-- Python 3.x
-- pip (Python package installer)
-- virtualenv (recommended)
+## Major UI/UX Improvements
+Recently overhauled to reflect a premium, resume-ready frontend:
+- **Global Design System:** Transitioned to a custom Indigo/Slate color palette with modern typography and refined box-shadow implementations.
+- **Glassmorphism Integration:** Upgraded navigation with translucent blur effects (`backdrop-filter`) for a premium layout.
+- **Dynamic Dashboard Stats:** Rebuilt teacher and student dashboards with elegant, data-driven summary cards.
+- **Asynchronous Toasts:** Replaced legacy blocking alerts with non-intrusive Bootstrap Toasts that auto-dismiss.
+- **Polished Empty States:** Implemented refined empty states for lists with oversized iconography to improve user onboarding.
+- **Modern Authentication:** Redesigned login, registration, and profile screens to utilize centered card layouts, floating labels, and dynamic visual grouping.
 
 ## Installation & Setup
 
@@ -36,42 +35,60 @@ A Django-based Learning Management System (LMS) designed for classroom managemen
 
 2. **Create and activate a virtual environment:**
    ```bash
-   # Windows
    python -m venv venv
-   .\venv\Scripts\activate
-   
-   # macOS/Linux
-   python3 -m venv venv
-   source venv/bin/activate
+   source venv/bin/activate  # macOS/Linux
+   # OR
+   .\venv\Scripts\activate   # Windows
    ```
 
 3. **Install dependencies:**
    ```bash
    pip install -r digiclassrooms/requirements.txt
    ```
-   *(Note: Adjust the path to `requirements.txt` if necessary based on the project structure)*
 
 4. **Run migrations:**
    ```bash
-   python digiclassrooms/manage.py migrate
+   cd digiclassrooms
+   python manage.py makemigrations
+   python manage.py migrate
    ```
 
-5. **Start the development server:**
+5. **Create a superuser (optional):**
    ```bash
-   python digiclassrooms/manage.py runserver
+   python manage.py createsuperuser
    ```
 
-## Usage Instructions
+## How to Run Locally
 
-- Navigate to `http://127.0.0.1:8000` in your web browser.
-- **Admin Access:** You can create a superuser using `python digiclassrooms/manage.py createsuperuser` to access the admin dashboard.
-- **Students/Teachers:** Register an account via the web interface. Teachers can create classes and generate join keys, which students can use to enroll.
+Start the Django development server:
+```bash
+python manage.py runserver
+```
+Visit `http://127.0.0.1:8000/` in your browser.
 
-## Credits
+## Screenshots
 
-Based on DigiClassroom by ukg2005 (https://github.com/ukg2005/DigiClassroom).
-Customized and extended by **Manjita Singh Pachora** <manjitasinghpachora@gmail.com>.
+### 1. Dashboard View
+*(A polished student/teacher dashboard showing modern stat cards and gradient course containers.)*
+<br>
+![Dashboard Placeholder](https://via.placeholder.com/800x400?text=Insert+Dashboard+Screenshot+Here)
 
-## License
+### 2. Login/Register Screen
+*(A sleek, centered authentication form utilizing floating labels and responsive grouping.)*
+<br>
+![Login Placeholder](https://via.placeholder.com/800x400?text=Insert+Login+Screenshot+Here)
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### 3. Profile / Settings
+*(An organized "Account Settings" layout with cleanly separated profile views and editable forms.)*
+<br>
+![Profile Placeholder](https://via.placeholder.com/800x400?text=Insert+Profile+Screenshot+Here)
+
+## Suggested Future Improvements
+- **Dark Mode Integration:** Implement a global toggle for dark/light themes.
+- **AJAX Form Submissions:** Transition authentication and ticket submission to asynchronous forms.
+- **Advanced File Handling:** Integrate AWS S3 or equivalent for robust media and assignment storage.
+
+## License & Credits
+Based on the original DigiClassroom project by ukg2005 ([Source](https://github.com/ukg2005/DigiClassroom)). 
+Customized and extended by **Manjita Singh Pachora**.
+This project is licensed under the MIT License - see the LICENSE file for details.
