@@ -1,129 +1,77 @@
-# DigiClassroom
+# DigitalClassroom
 
-DigiClassroom is a Django-based Learning Management System (LMS) for classroom management, content delivery, assessments, and communication across Admin, Teacher, and Student roles.
+A Django-based Learning Management System (LMS) designed for classroom management, content delivery, assessments, and streamlined communication across Admin, Teacher, and Student roles. 
 
-The platform focuses on practical teaching workflows: classroom onboarding, assignment authoring, submission review, Q&A grading, calendar deadlines, reminders, and admin support conversations.
+## Features
 
----
+- **Roles and Dashboards:** Distinct dashboards for Admin, Teacher, and Student roles with tailored workflows.
+- **Classroom Management:** Secure, key-based joining for students, with role-based approval flows for new classes.
+- **Lectures and Notices:** Dedicated modules for video lectures and announcements, supporting threaded discussions.
+- **Assignments and Grading:**
+  - Auto-grading for quizzes.
+  - Manual grading for Q&A with per-question feedback.
+- **Deadlines and Alerts:** Built-in calendar views and urgency-based reminders for upcoming deadlines.
+- **Support and Communication:** Integrated ticketing system and threaded support conversations.
 
-## Documentation
+## Tech Stack
 
-- [Installation & setup](INSTALLATION.md) — environment setup, migrations, running the server
-- [Features](FEATURES.md) — user-facing feature overview
-- [Implementation notes](IMPLEMENTATION.md) — app structure, design notes, and development details
+- **Backend:** Python, Django
+- **Database:** SQLite (default, compatible with PostgreSQL/MySQL)
+- **Frontend:** HTML5, CSS3, Django Template Language
+- **Authentication:** Django's built-in authentication system with custom profiles
 
-## Quickstart (local)
+## Prerequisites
 
-See [INSTALLATION.md](INSTALLATION.md) for full details. The shortest path is:
+- Python 3.x
+- pip (Python package installer)
+- virtualenv (recommended)
 
-1. Create/activate a virtualenv
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run migrations: `python digiclassrooms/manage.py migrate`
-4. Start server: `python digiclassrooms/manage.py runserver`
+## Installation & Setup
 
-## Key Features
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Manjita02/DigitalClassroom.git
+   cd DigitalClassroom
+   ```
 
-### Roles and Dashboards
-- Admin dashboard for class creation, teacher join/leave approvals, and support inbox access.
-- Teacher dashboard for active classes, class join requests, and classroom operations.
-- Student dashboard with enrolled classes, upcoming deadlines, and alert visibility.
-- Profile page for user details and quick navigation.
+2. **Create and activate a virtual environment:**
+   ```bash
+   # Windows
+   python -m venv venv
+   .\venv\Scripts\activate
+   
+   # macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-### Classroom Management
-- Admin-created classrooms with teacher assignment and membership controls.
-- Join with expiring join keys for students.
-- Teacher join-request flow for new classes.
-- Teacher and student leave-request flows with role-based approvals.
+3. **Install dependencies:**
+   ```bash
+   pip install -r digiclassrooms/requirements.txt
+   ```
+   *(Note: Adjust the path to `requirements.txt` if necessary based on the project structure)*
 
-### Lectures and Notices
-- Lecture and notice modules with classroom-scoped content.
-- Threaded discussion comments with nested replies.
-- Edit and moderation support where permitted by role.
+4. **Run migrations:**
+   ```bash
+   python digiclassrooms/manage.py migrate
+   ```
 
-### Assignments and Grading
-- Assignment types: Quiz and Q&A.
-- Question-level marks for both quiz and Q&A prompts.
-- Quiz auto-grading with attempts, late policy, and optional late penalty.
-- Q&A manual grading by teachers with:
-	- per-question marks awarded,
-	- per-question feedback,
-	- assignment-level feedback.
-- Submission history and teacher review views.
+5. **Start the development server:**
+   ```bash
+   python digiclassrooms/manage.py runserver
+   ```
 
-### Deadlines and Alerts
-- Classroom calendar view for assignment due dates and teacher-created deadline events.
-- Student-facing upcoming deadlines with urgency windows.
-- Notification reminders for near-term deadlines.
+## Usage Instructions
 
-### Support and Communication
-- Contact-admin ticketing with categories.
-- Threaded support conversations between users and admins.
-- Admin support inbox and ticket status handling.
+- Navigate to `http://127.0.0.1:8000` in your web browser.
+- **Admin Access:** You can create a superuser using `python digiclassrooms/manage.py createsuperuser` to access the admin dashboard.
+- **Students/Teachers:** Register an account via the web interface. Teachers can create classes and generate join keys, which students can use to enroll.
 
----
+## Credits
 
-## Technical Architecture
+Based on DigiClassroom by ukg2005 (https://github.com/ukg2005/DigiClassroom).
+Customized and extended by **Manjita Singh Pachora** <manjitasinghpachora@gmail.com>.
 
-### Framework and Technology Stack
-- **Backend**: Django with Python
-- **Database**: SQLite (default, easily swappable to PostgreSQL or MySQL)
-- **Frontend**: HTML5, CSS3, Django Template Language
-- **Authentication**: Django's built-in authentication system with custom profile extensions
+## License
 
-### Modular Application Structure
-The project is organized into app modules:
-
-- **users**: authentication, profiles, notifications, support tickets, support threads.
-- **classrooms**: classroom creation, join/leave requests, enrollment, dashboards.
-- **lectures**: lecture content and discussion threads.
-- **notices**: notice publishing and discussion threads.
-- **assignments**: assignment lifecycle, question authoring, submissions, quiz auto-grading, Q&A manual grading.
-- **results**: reserved for expanded analytics/reporting workflows.
-
-### Database Relationships
-- One-to-one: User to Profile
-- Many-to-many: users to classrooms through teacher/student membership links
-- Foreign keys: lectures, notices, assignments, events, and requests bound to classrooms
-- Hierarchical replies: threaded comments and threaded support messages
-
-### Data Models Overview
-
-#### User and Profile
-- `User`: Django's built-in User model
-- `Profile`: Custom extension storing teacher/student flag
-
-#### Classroom Hierarchy
-- `Classroom`: Container for all classroom content (name, description, teacher, students)
-- `Lecture`: Video content (title, YouTube link, creation timestamp)
-- `LectureComment`: Threaded discussion on lectures (with parent field for replies)
-- `Notice`: Text announcements (title, content, author, timestamp)
-- `NoticeComment`: Threaded discussion on notices (with parent field for replies)
-
-#### Assessment System
-- `Assignment`: quiz or Q&A container, attempts and late-policy controls
-- `Question`: prompt text, type, and marks
-- `Choice`: options and correctness for quiz questions
-- `Submission`: attempt record, score, assignment feedback, grading timestamp
-- `StudentAnswer`: per-question response, awarded marks, and per-question feedback
-
----
-
-## Getting Started
-
-To set up and run DigiClassroom locally, start with [INSTALLATION.md](INSTALLATION.md).
-
-For email configuration, see [EMAIL_SETUP.md](EMAIL_SETUP.md).
-
-To understand what the project includes and how it’s structured, see [FEATURES.md](FEATURES.md) and [IMPLEMENTATION.md](IMPLEMENTATION.md).
-
-### Classroom join keys
-
-- Teachers see a join key on the Teacher Dashboard and can regenerate it anytime.
-- Students must use a valid (unexpired) key to join a classroom.
-- Key lifetime is configured via `CLASSROOM_JOIN_KEY_TTL_MINUTES` in `digiclassrooms/digiclassrooms/settings.py`.
-
-### Q&A grading
-
-- Teachers assign marks when creating each prompt.
-- Teachers grade Q&A submissions from the submission review page.
-- Teachers can provide both per-question and assignment-level feedback.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
