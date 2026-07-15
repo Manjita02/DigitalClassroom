@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DigiClassroom
 
 A modern, streamlined digital classroom platform built with Django. This platform provides distinct portals for students, teachers, and administrators to facilitate digital education, track assignments, and maintain smooth communication.
@@ -92,3 +93,6 @@ Visit `http://127.0.0.1:8000/` in your browser.
 Based on the original DigiClassroom project by ukg2005 ([Source](https://github.com/ukg2005/DigiClassroom)). 
 Customized and extended by **Manjita Singh Pachora**.
 This project is licensed under the MIT License - see the LICENSE file for details.
+=======
+# DigitalClassroom
+>>>>>>> 87d59aa10bbdea12b2e1c0d09174fb99b71f2bd2
