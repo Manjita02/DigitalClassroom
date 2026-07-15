@@ -16,10 +16,10 @@
 
 <div class="row g-4">
     <div class="col-lg-4">
-        <div class="card h-100">
+        <div class="card h-100 border-0 shadow-sm">
             <div class="card-body">
                 <div class="text-center mb-4">
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 84px; height: 84px; font-size: 2rem;">
+                    <div class="rounded-circle text-white shadow-sm d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; font-size: 2.5rem; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);">
                         {{ user.username|first|upper }}
                     </div>
                     <h4 class="fw-bold mb-1">{{ user.get_full_name|default:user.username }}</h4>
@@ -33,7 +33,7 @@
                     {% endif %}
                 </div>
 
-                <div class="list-group list-group-flush">
+                <div class="list-group list-group-flush mt-4">
                     <div class="list-group-item px-0">
                         <div class="text-muted small mb-1">Email</div>
                         <div class="fw-semibold">{{ user.email|default:'Not set' }}</div>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-4 border-0 bg-light-subtle">
+                <div class="card mt-4 border border-light bg-light rounded-4 shadow-sm">
                     <div class="card-body">
                         <h6 class="fw-bold mb-3"><i class="fas fa-pen-to-square me-2"></i>Edit Profile</h6>
                         <form method="post">
@@ -126,7 +126,7 @@
             </div>
             <div class="card-body p-0">
                 {% if tickets %}
-                    <div class="list-group list-group-flush">
+                    <div class="list-group list-group-flush mt-4">
                         {% for ticket in tickets %}
                             <a href="{% url 'support_detail' ticket.pk %}" class="list-group-item list-group-item-action">
                                 <div class="d-flex justify-content-between align-items-start gap-3">
@@ -159,7 +159,7 @@
 
         <div class="row g-3 mt-1">
             <div class="col-md-6">
-                <div class="card h-100">
+                <div class="card h-100 border-0 shadow-sm">
                     <div class="card-header">
                         <h6 class="mb-0"><i class="fas fa-school me-2"></i>Classes I'm In</h6>
                     </div>
@@ -180,7 +180,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card h-100">
+                <div class="card h-100 border-0 shadow-sm">
                     <div class="card-header">
                         <h6 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>Classes I Teach</h6>
                     </div>
