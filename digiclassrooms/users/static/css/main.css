@@ -263,3 +263,6 @@ details > summary.card-header {
     font-size: 0.7rem;
     padding: 0.25em 0.5em;
 }
+
+/* Toast overrides */
+.text-bg-error { background-color: var(--danger-color) !important; color: white !important; }
