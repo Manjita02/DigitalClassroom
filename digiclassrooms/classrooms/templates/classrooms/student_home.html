@@ -14,6 +14,32 @@
     </div>
 </div>
 
+<!-- Stat Cards -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-3 mb-md-0">
+        <div class="card h-100 border-0 text-white shadow-sm" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);">
+            <div class="card-body d-flex align-items-center">
+                <div class="display-6 me-3"><i class="fas fa-book-reader opacity-50"></i></div>
+                <div>
+                    <h6 class="text-uppercase fw-semibold mb-1 opacity-75" style="letter-spacing: 0.5px; font-size: 0.8rem;">Enrolled Classes</h6>
+                    <h2 class="mb-0 fw-bold">{{ enrolled_classrooms|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 border-0 text-white shadow-sm" style="background: linear-gradient(135deg, var(--info-color) 0%, var(--info-dark) 100%);">
+            <div class="card-body d-flex align-items-center">
+                <div class="display-6 me-3"><i class="fas fa-calendar-alt opacity-50"></i></div>
+                <div>
+                    <h6 class="text-uppercase fw-semibold mb-1 opacity-75" style="letter-spacing: 0.5px; font-size: 0.8rem;">Upcoming Deadlines</h6>
+                    <h2 class="mb-0 fw-bold">{{ upcoming_deadlines|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% if urgent_deadlines %}
     <div class="alert alert-warning mb-4">
         <h5 class="fw-bold mb-2"><i class="fas fa-bell me-2"></i>Due Within 24 Hours</h5>
@@ -72,25 +98,21 @@
 <div class="row">
     {% for classroom in enrolled_classrooms %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 border-0 shadow-sm overflow-hidden course-card">
+                <div class="card-header border-0 py-3" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);">
+                    <h5 class="fw-bold mb-1 text-white text-truncate"><i class="fas fa-chalkboard me-2 opacity-50"></i>{{ classroom.name }}</h5>
+                    <h6 class="mb-0 text-white-50 small"><i class="fas fa-user-tie me-1"></i>{{ classroom.teacher.username }}</h6>
+                </div>
                 <div class="card-body d-flex flex-column">
-                    <div class="mb-3">
-                        <h5 class="card-title fw-bold mb-2">
-                            <i class="fas fa-chalkboard text-primary me-2"></i>{{ classroom.name }}
-                        </h5>
-                        <h6 class="card-subtitle text-muted">
-                            <i class="fas fa-user-tie me-1"></i>{{ classroom.teacher.username }}
-                        </h6>
-                    </div>
-                    <p class="card-text flex-grow-1 text-muted">{{ classroom.description|truncatewords:20 }}</p>
+                    <p class="text-muted mb-3 flex-grow-1">{{ classroom.description|default:'No description yet.'|truncatewords:15 }}</p>
                     <div class="d-grid gap-2 mt-auto">
                         <a href="{% url 'classroom_detail' classroom.pk %}" class="btn btn-primary w-100">
                             <i class="fas fa-door-open me-2"></i>Enter Classroom
                         </a>
                         <form method="post" action="{% url 'leave_classroom' classroom.pk %}" onsubmit="return confirm('Request to leave this classroom?');">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger w-100">
-                                <i class="fas fa-sign-out-alt me-2"></i>Request Leave
+                            <button type="submit" class="btn btn-light w-100 text-danger fw-semibold border-0">
+                                Request Leave
                             </button>
                         </form>
                     </div>

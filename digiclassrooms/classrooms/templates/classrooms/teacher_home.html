@@ -12,17 +12,57 @@
     </div>
 </div>
 
+<!-- Stat Cards -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card h-100 border-0 bg-primary text-white shadow-sm" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);">
+            <div class="card-body d-flex align-items-center">
+                <div class="display-6 me-3"><i class="fas fa-chalkboard-teacher opacity-50"></i></div>
+                <div>
+                    <h6 class="text-uppercase fw-semibold mb-1 opacity-75" style="letter-spacing: 0.5px; font-size: 0.8rem;">Active Classes</h6>
+                    <h2 class="mb-0 fw-bold">{{ classrooms|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card h-100 border-0 bg-warning text-dark shadow-sm">
+            <div class="card-body d-flex align-items-center">
+                <div class="display-6 me-3"><i class="fas fa-hourglass-half opacity-50"></i></div>
+                <div>
+                    <h6 class="text-uppercase fw-semibold mb-1 opacity-75" style="letter-spacing: 0.5px; font-size: 0.8rem;">Pending Requests</h6>
+                    <h2 class="mb-0 fw-bold" id="statPendingReqs">{{ pending_join_requests|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 text-white shadow-sm" style="background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);">
+            <div class="card-body d-flex align-items-center">
+                <div class="display-6 me-3"><i class="fas fa-plus-circle opacity-50"></i></div>
+                <div>
+                    <h6 class="text-uppercase fw-semibold mb-1 opacity-75" style="letter-spacing: 0.5px; font-size: 0.8rem;">Available to Teach</h6>
+                    <h2 class="mb-0 fw-bold" id="statAvailClasses">{{ available_classrooms|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     {% for classroom in classrooms %}
-        <div class="col-md-6 mb-4">
-            <div class="card h-100">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm overflow-hidden course-card">
+                <div class="card-header border-0 py-3" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);">
+                    <h5 class="fw-bold mb-0 text-white text-truncate"><i class="fas fa-school me-2 opacity-50"></i>{{ classroom.name }}</h5>
+                </div>
                 <div class="card-body d-flex flex-column">
-                    <h5 class="fw-bold mb-1"><i class="fas fa-school text-primary me-2"></i>{{ classroom.name }}</h5>
-                    <p class="text-muted mb-2">{{ classroom.description|default:'No description yet.'|truncatewords:18 }}</p>
-                    <p class="mb-3"><span class="badge bg-info">{{ classroom.students.count }} students</span></p>
-
-                    <div class="mt-auto d-grid gap-2">
-                        <a href="{% url 'classroom_detail' classroom.pk %}" class="btn btn-primary">
+                    <p class="text-muted mb-3 flex-grow-1">{{ classroom.description|default:'No description yet.'|truncatewords:15 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-light text-dark border"><i class="fas fa-users me-1 text-primary"></i>{{ classroom.students.count }} students</span>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="{% url 'classroom_detail' classroom.pk %}" class="btn btn-primary w-100">
                             <i class="fas fa-door-open me-2"></i>Open Classroom
                         </a>
                     </div>
@@ -123,6 +163,10 @@
 
             const nextPending = Number(data.pending_join_requests || 0);
             const nextAvail = Number(data.available_classrooms || 0);
+            const statPendingReqs = document.getElementById("statPendingReqs");
+            const statAvailClasses = document.getElementById("statAvailClasses");
+            if(statPendingReqs) statPendingReqs.textContent = nextPending;
+            if(statAvailClasses) statAvailClasses.textContent = nextAvail;
             const currentPending = readLeadingInt(pendingBadge.textContent);
             const currentAvail = Number(availBadge.textContent || 0);
 
